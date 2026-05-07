@@ -1,18 +1,5 @@
 {
-  "lastUpdated": "2026-05-07T04:00:32.388Z",
+  "lastUpdated": "2026-05-07T04:13:16.156Z",
   "opportunities": [],
-  "standaloneActions": [
-    {
-      "id": "s-001",
-      "text": "Update Q1 forecast spreadsheet",
-      "dueDate": "2026-02-09",
-      "done": false
-    },
-    {
-      "id": "s-002",
-      "text": "Quarterly business review prep",
-      "dueDate": "2026-03-01",
-      "done": false
-    }
-  ]
+  "standaloneActions": []
 }
