@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opportunity Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.40.0/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Unsaved-changes banner -->
+<div id="save-banner" class="save-banner" style="display:none;">
+  <div class="save-banner-inner">
+    <div class="save-banner-text">
+      <i class="ti ti-alert-circle"></i>
+      <span><strong id="unsaved-count">0</strong> unsaved <span id="unsaved-noun">change</span></span>
+    </div>
+    <div class="save-banner-actions">
+      <button class="btn btn-small" onclick="discardChanges()" title="Revert to the saved version">
+        <i class="ti ti-arrow-back-up"></i> Discard
+      </button>
+      <button class="btn btn-small btn-primary" onclick="copyUpdatedJSON()" title="Copy the updated data.json to your clipboard">
+        <i class="ti ti-clipboard-copy"></i> Copy updated data.json
+      </button>
+      <button class="btn btn-small" onclick="openGitHubEditor()" title="Open data.json in your repo to paste">
+        <i class="ti ti-brand-github"></i> Open on GitHub
+      </button>
+    </div>
+  </div>
+  <p class="save-banner-help">
+    Click "Copy updated data.json", then "Open on GitHub". On GitHub: click the pencil icon, select all, paste, and commit. Your dashboard updates ~30 seconds later.
+  </p>
+</div>
+
+<!-- ========== APP BAR ========== -->
+<header class="appbar">
+  <div class="appbar-inner">
+    <div class="appbar-left">
+      <h1 class="appbar-title">Opportunity Dashboard</h1>
+      <span class="status-badge success" id="overall-status">
+        <span class="dot"></span> Active
+      </span>
+    </div>
+    <div class="appbar-right">
+      <div class="appbar-meta">
+        <div class="appbar-meta-label">Last Updated</div>
+        <div class="appbar-meta-value" id="last-updated">—</div>
+      </div>
+      <button class="btn btn-icon" onclick="downloadJSON()" title="Download a backup of your data">
+        <i class="ti ti-download"></i> Backup
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- ========== PRIMARY TABS ========== -->
+  <nav class="primary-tabs" role="tablist">
+    <button class="ptab ptab-active" data-view="opps" role="tab">
+      Opportunities
+      <span class="tab-count" id="count-opps">0</span>
+    </button>
+    <button class="ptab" data-view="actions" role="tab">
+      Action Items
+      <span class="tab-count" id="count-actions">0</span>
+    </button>
+  </nav>
+
+  <!-- ========== OPPORTUNITIES VIEW ========== -->
+  <section id="view-opps" class="view">
+
+    <!-- Summary panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Pipeline Summary</h2>
+          <p class="panel-subtitle">Snapshot of all open opportunities</p>
+        </div>
+        <button class="btn btn-primary" onclick="openOpportunityForm(null)">
+          <i class="ti ti-plus"></i> New Opportunity
+        </button>
+      </div>
+
+      <div class="status-pills">
+        <div class="status-pill">
+          <i class="ti ti-trending-up info"></i>
+          <span class="pill-value" id="metric-pipeline">$0M</span>
+          <span class="pill-label">Total Pipeline</span>
+        </div>
+        <div class="status-pill">
+          <i class="ti ti-briefcase"></i>
+          <span class="pill-value" id="metric-opps">0</span>
+          <span class="pill-label">Active Opportunities</span>
+        </div>
+        <div class="status-pill" id="metric-overdue-pill" style="display:none;">
+          <i class="ti ti-alert-triangle danger"></i>
+          <span class="pill-value" id="metric-overdue">0</span>
+          <span class="pill-label">Overdue Actions</span>
+        </div>
+        <div class="status-pill">
+          <i class="ti ti-calendar warn"></i>
+          <span class="pill-value" id="metric-thismonth">$0M</span>
+          <span class="pill-label">Closing this month</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opportunity grid panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Opportunity Overview</h2>
+          <p class="panel-subtitle"><span id="opp-count-text">0</span> Active</p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" id="opp-search" placeholder="Search clients or opportunities..." class="input-search">
+        <select id="opp-filter-client" class="select"><option value="">All clients</option></select>
+        <select id="opp-sort" class="select">
+          <option value="eta">Sort: ETA close</option>
+          <option value="size">Sort: deal size</option>
+          <option value="received">Sort: received date</option>
+        </select>
+      </div>
+
+      <div id="opps-list" class="opps-list"></div>
+      <div id="opps-empty" class="empty-state" style="display:none;">
+        <i class="ti ti-briefcase-off"></i>
+        <p>No opportunities yet. Click "New Opportunity" to add one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ACTION ITEMS VIEW ========== -->
+  <section id="view-actions" class="view" style="display:none;">
+
+    <!-- Summary panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Action Items</h2>
+          <p class="panel-subtitle">Tasks across all opportunities and standalone work</p>
+        </div>
+        <button class="btn btn-primary" onclick="openActionForm(null, null)">
+          <i class="ti ti-plus"></i> New Action
+        </button>
+      </div>
+
+      <div class="status-pills">
+        <div class="status-pill">
+          <i class="ti ti-checkbox"></i>
+          <span class="pill-value" id="metric-actions-open">0</span>
+          <span class="pill-label">Open</span>
+        </div>
+        <div class="status-pill" id="metric-overdue-pill-2" style="display:none;">
+          <i class="ti ti-alert-triangle danger"></i>
+          <span class="pill-value" id="metric-actions-overdue">0</span>
+          <span class="pill-label">Overdue</span>
+        </div>
+        <div class="status-pill">
+          <i class="ti ti-link info"></i>
+          <span class="pill-value" id="metric-actions-linked">0</span>
+          <span class="pill-label">Linked to opportunity</span>
+        </div>
+        <div class="status-pill">
+          <i class="ti ti-circle-dashed"></i>
+          <span class="pill-value" id="metric-actions-standalone">0</span>
+          <span class="pill-label">Standalone</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action items list panel -->
+    <div class="panel">
+      <div class="toolbar">
+        <select id="act-filter" class="select">
+          <option value="all">All actions</option>
+          <option value="linked">Linked to opportunity</option>
+          <option value="standalone">Standalone only</option>
+          <option value="open">Open only</option>
+          <option value="done">Completed only</option>
+        </select>
+        <select id="act-group" class="select">
+          <option value="due">Group: by due date</option>
+          <option value="opp">Group: by opportunity</option>
+        </select>
+      </div>
+
+      <div id="actions-list" class="actions-list"></div>
+      <div id="actions-empty" class="empty-state" style="display:none;">
+        <i class="ti ti-checkbox"></i>
+        <p>No action items yet. Click "New Action" to add one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Updated through Claude chat or directly in this dashboard</p>
+  </footer>
+</div>
+
+<!-- Confirmation / form modal -->
+<div id="modal-overlay" class="modal-overlay" style="display:none;"></div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
