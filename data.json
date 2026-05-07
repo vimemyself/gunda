@@ -1,51 +1,6 @@
 {
-  "lastUpdated": "2026-05-07T03:59:52.096Z",
-  "opportunities": [
-    {
-      "id": "opp-002",
-      "clientName": "Northwind Health",
-      "opportunityName": "Patient intake portal redesign",
-      "description": "Modernize patient onboarding across 14 outpatient clinics. HIPAA-compliant with SSO integration.",
-      "size": 185000,
-      "receivedDate": "2025-12-12",
-      "etaCloseDate": "2026-04-30",
-      "keyAspects": "Budget approved but champion left the company. Need to rebuild relationship with new VP of Digital. Pricing pressure from internal IT proposal.",
-      "colorIndex": 2,
-      "actions": [
-        {
-          "id": "a-005",
-          "text": "Prepare ROI comparison vs internal IT build",
-          "dueDate": "2026-02-20",
-          "done": false
-        },
-        {
-          "id": "a-006",
-          "text": "Send revised pricing proposal",
-          "dueDate": "2026-02-28",
-          "done": false
-        }
-      ]
-    },
-    {
-      "id": "opp-003",
-      "clientName": "Globex Manufacturing",
-      "opportunityName": "IoT predictive maintenance pilot",
-      "description": "Sensor-based equipment monitoring across 3 factories. Pilot to scale into 12-site rollout if KPIs hit.",
-      "size": 760000,
-      "receivedDate": "2025-11-22",
-      "etaCloseDate": "2026-06-30",
-      "keyAspects": "Strong executive sponsor. Pilot success metrics already agreed. Long sales cycle due to plant scheduling. Renewal expansion likely.",
-      "colorIndex": 3,
-      "actions": [
-        {
-          "id": "a-007",
-          "text": "Finalize IoT pilot scope document",
-          "dueDate": "2026-03-05",
-          "done": false
-        }
-      ]
-    }
-  ],
+  "lastUpdated": "2026-05-07T04:00:32.388Z",
+  "opportunities": [],
   "standaloneActions": [
     {
       "id": "s-001",
