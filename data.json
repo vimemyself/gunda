@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T20:24:52.195Z",
+  "lastUpdated": "2026-05-08T20:33:37.116Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -72,6 +72,25 @@
           "id": "a-moxd632hjhsx",
           "text": "Lok - Reach outs",
           "dueDate": "2026-05-08",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "opp-moxdgpprjhpw",
+      "clientName": "CS",
+      "opportunityName": "Aca - New tape out ramp up",
+      "description": "",
+      "size": 0,
+      "receivedDate": "2026-05-08",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 4,
+      "actions": [
+        {
+          "id": "a-moxdhcj59bu6",
+          "text": "Subhash - Followup with Raj",
+          "dueDate": "2026-05-25",
           "done": false
         }
       ]
