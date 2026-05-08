@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-07T19:13:13.950Z",
+  "lastUpdated": "2026-05-08T00:49:39.538Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -50,5 +50,11 @@
       ]
     }
   ],
-  "standaloneActions": []
+  "standaloneActions": [
+    {
+      "id": "a-mow76s0k0f6x",
+      "text": "Testing",
+      "done": false
+    }
+  ]
 }
