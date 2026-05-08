@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T00:49:39.538Z",
+  "lastUpdated": "2026-05-08T01:03:23.366Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -38,23 +38,25 @@
           "done": false
         },
         {
-          "id": "a-movv5jxdwovp",
-          "text": "Mexico - Give SO/JO to Mexico",
+          "id": "a-movv5sufke9j",
+          "text": "Natarajan - Follow-up on India profiles",
+          "dueDate": "2026-05-07",
           "done": false
         },
         {
-          "id": "a-movv5sufke9j",
-          "text": "Natarajan - Follow-up on India profiles",
+          "id": "a-movv5jxdwovp",
+          "text": "Mexico - Give SO/JO to Mexico",
+          "dueDate": "2026-05-07",
+          "done": false
+        },
+        {
+          "id": "a-mow7ob0erhib",
+          "text": "Vanessa - Send her the profiles",
+          "dueDate": "2026-05-07",
           "done": false
         }
       ]
     }
   ],
-  "standaloneActions": [
-    {
-      "id": "a-mow76s0k0f6x",
-      "text": "Testing",
-      "done": false
-    }
-  ]
+  "standaloneActions": []
 }
