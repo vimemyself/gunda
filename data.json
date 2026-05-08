@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T20:40:31.424Z",
+  "lastUpdated": "2026-05-08T20:47:01.769Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -35,7 +35,7 @@
           "id": "a-movv5jxdwovp",
           "text": "Mexico - Give SO/JO to Mexico",
           "dueDate": "2026-05-07",
-          "done": false
+          "done": true
         },
         {
           "id": "a-mow7ob0erhib",
