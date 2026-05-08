@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T01:09:15.323Z",
+  "lastUpdated": "2026-05-08T01:17:34.140Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -44,19 +44,26 @@
           "done": false
         },
         {
-          "id": "a-mow7ob0erhib",
-          "text": "Vanessa - Send her the profiles",
+          "id": "a-movv5jxdwovp",
+          "text": "Mexico - Give SO/JO to Mexico",
           "dueDate": "2026-05-07",
           "done": false
         },
         {
-          "id": "a-movv5jxdwovp",
-          "text": "Adhi/Mexico - Give SO/JO to Mexico",
+          "id": "a-mow7ob0erhib",
+          "text": "Vanessa - Send her the profiles",
           "dueDate": "2026-05-07",
           "done": false
         }
       ]
     }
   ],
-  "standaloneActions": []
+  "standaloneActions": [
+    {
+      "id": "a-mow80t62arui",
+      "text": "Setvaji - Data Security issue",
+      "dueDate": "2026-05-08",
+      "done": false
+    }
+  ]
 }
