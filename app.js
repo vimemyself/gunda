@@ -962,7 +962,7 @@ function showModal(title, bodyHtml, onConfirm) {
       </div>
     </div>
   `;
-  overlay.style.display = '';
+  overlay.style.display = 'flex';
   document.getElementById('modal-confirm').onclick = () => {
     onConfirm();
     closeModal();
@@ -972,11 +972,13 @@ function showModal(title, bodyHtml, onConfirm) {
 function showFormModal(innerHtml) {
   const overlay = document.getElementById('modal-overlay');
   overlay.innerHTML = `<div class="modal modal-form">${innerHtml}</div>`;
-  overlay.style.display = '';
+  overlay.style.display = 'flex';
 }
 
 function closeModal() {
-  document.getElementById('modal-overlay').style.display = 'none';
+  const overlay = document.getElementById('modal-overlay');
+  overlay.style.display = 'none';
+  overlay.innerHTML = '';
 }
 
 // Close modal on outside click + Esc
