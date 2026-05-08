@@ -953,6 +953,10 @@ a { color: inherit; }
   transform: translateX(-50%) translateY(0);
 }
 
+/* Spin animation for saving indicator */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.spin { display: inline-block; animation: spin 0.8s linear infinite; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
