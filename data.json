@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T01:22:14.226Z",
+  "lastUpdated": "2026-05-08T01:22:43.279Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -32,12 +32,6 @@
       "colorIndex": 2,
       "actions": [
         {
-          "id": "a-movv5auvxw9k",
-          "text": "Setvaji - Ask to raise SO/JO for Mexico",
-          "dueDate": "2026-05-08",
-          "done": false
-        },
-        {
           "id": "a-movv5jxdwovp",
           "text": "Mexico - Give SO/JO to Mexico",
           "dueDate": "2026-05-07",
@@ -52,6 +46,12 @@
         {
           "id": "a-movv5sufke9j",
           "text": "Natarajan - Follow-up on India profiles",
+          "dueDate": "2026-05-08",
+          "done": false
+        },
+        {
+          "id": "a-movv5auvxw9k",
+          "text": "Setvaji - Ask to raise SO/JO for Mexico",
           "dueDate": "2026-05-08",
           "done": false
         }
