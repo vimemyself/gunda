@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T04:31:30.132Z",
+  "lastUpdated": "2026-05-08T20:24:52.195Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -54,6 +54,25 @@
           "text": "Setvaji - Ask to raise SO/JO for Mexico",
           "dueDate": "2026-05-08",
           "done": true
+        }
+      ]
+    },
+    {
+      "id": "opp-moxd5j9ldamq",
+      "clientName": "CS",
+      "opportunityName": "SmartSoc consolidation",
+      "description": "",
+      "size": 0.35,
+      "receivedDate": "2026-05-08",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 3,
+      "actions": [
+        {
+          "id": "a-moxd632hjhsx",
+          "text": "Lok - Reach outs",
+          "dueDate": "2026-05-08",
+          "done": false
         }
       ]
     }
