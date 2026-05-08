@@ -89,20 +89,39 @@ function fmtCurrency(n) {
   return '$' + str + 'M';
 }
 
+// Parse a YYYY-MM-DD string as LOCAL midnight (not UTC).
+// new Date("2026-05-07") treats it as UTC midnight, which shifts back a day in western timezones.
+// This helper avoids that by splitting and constructing the date with explicit year/month/day.
+function parseLocalDate(iso) {
+  if (!iso) return null;
+  const parts = String(iso).split('-');
+  if (parts.length === 3) {
+    return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  }
+  return new Date(iso);
+}
+
 function fmtDate(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  if (isNaN(d)) return iso;
+  const d = parseLocalDate(iso);
+  if (!d || isNaN(d)) return iso;
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 function daysFromNow(iso) {
   if (!iso) return null;
-  const d = new Date(iso);
+  const d = parseLocalDate(iso);
+  if (!d) return null;
   const now = new Date();
   now.setHours(0, 0, 0, 0);
   d.setHours(0, 0, 0, 0);
   return Math.round((d - now) / (1000 * 60 * 60 * 24));
+}
+
+// Returns today's date as YYYY-MM-DD in local timezone
+function todayLocal() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 function dueLabel(iso) {
@@ -164,8 +183,8 @@ function renderMetrics() {
   const totalPipeline = DATA.opportunities.reduce((s, o) => s + (Number(o.size) || 0), 0);
   const thisMonth = DATA.opportunities.filter(o => {
     if (!o.etaCloseDate) return false;
-    const d = new Date(o.etaCloseDate); const now = new Date();
-    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    const d = parseLocalDate(o.etaCloseDate); const now = new Date();
+    return d && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   }).reduce((s, o) => s + (Number(o.size) || 0), 0);
 
   // Opportunities view metrics
@@ -237,8 +256,8 @@ function renderOpportunities() {
 
   opps.sort((a, b) => {
     if (sortBy === 'size') return (Number(b.size) || 0) - (Number(a.size) || 0);
-    if (sortBy === 'received') return new Date(b.receivedDate || 0) - new Date(a.receivedDate || 0);
-    return new Date(a.etaCloseDate || '9999') - new Date(b.etaCloseDate || '9999');
+    if (sortBy === 'received') return (parseLocalDate(b.receivedDate) || 0) - (parseLocalDate(a.receivedDate) || 0);
+    return (parseLocalDate(a.etaCloseDate) || new Date('9999')) - (parseLocalDate(b.etaCloseDate) || new Date('9999'));
   });
 
   const list = document.getElementById('opps-list');
@@ -381,7 +400,7 @@ function renderActionsByDue(actions) {
     else later.push(a);
   });
 
-  const sortByDue = (a, b) => new Date(a.dueDate || '9999') - new Date(b.dueDate || '9999');
+  const sortByDue = (a, b) => (parseLocalDate(a.dueDate) || new Date('9999')) - (parseLocalDate(b.dueDate) || new Date('9999'));
   [overdue, thisWeek, later].forEach(arr => arr.sort(sortByDue));
 
   let html = '';
@@ -604,7 +623,7 @@ function openActionForm(actionId, opportunityId) {
       </label>
       <label class="form-field">
         <span>Due date</span>
-        <input type="date" id="f-actDue" value="${escapeAttr(action?.dueDate || (isEdit ? '' : new Date().toISOString().slice(0, 10)))}">
+        <input type="date" id="f-actDue" value="${escapeAttr(action?.dueDate || (isEdit ? '' : todayLocal()))}">
       </label>
       <label class="form-field">
         <span>Status</span>
