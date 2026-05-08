@@ -604,7 +604,7 @@ function openActionForm(actionId, opportunityId) {
       </label>
       <label class="form-field">
         <span>Due date</span>
-        <input type="date" id="f-actDue" value="${escapeAttr(action?.dueDate || '')}">
+        <input type="date" id="f-actDue" value="${escapeAttr(action?.dueDate || (isEdit ? '' : new Date().toISOString().slice(0, 10)))}">
       </label>
       <label class="form-field">
         <span>Status</span>
