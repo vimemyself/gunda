@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-08T20:33:37.116Z",
+  "lastUpdated": "2026-05-08T20:40:31.424Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -41,7 +41,7 @@
           "id": "a-mow7ob0erhib",
           "text": "Vanessa - Send her the profiles",
           "dueDate": "2026-05-07",
-          "done": false
+          "done": true
         },
         {
           "id": "a-movv5sufke9j",
