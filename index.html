@@ -23,16 +23,13 @@
       <button class="btn btn-small" onclick="discardChanges()" title="Revert to the saved version">
         <i class="ti ti-arrow-back-up"></i> Discard
       </button>
-      <button class="btn btn-small btn-primary" onclick="copyUpdatedJSON()" title="Copy the updated data.json to your clipboard">
-        <i class="ti ti-clipboard-copy"></i> Copy updated data.json
-      </button>
-      <button class="btn btn-small" onclick="openGitHubEditor()" title="Open data.json in your repo to paste">
-        <i class="ti ti-brand-github"></i> Open on GitHub
+      <button class="btn btn-small btn-primary" id="save-btn" onclick="saveToGitHub()" title="Save changes to GitHub">
+        <i class="ti ti-device-floppy"></i> Save to GitHub
       </button>
     </div>
   </div>
-  <p class="save-banner-help">
-    Click "Copy updated data.json", then "Open on GitHub". On GitHub: click the pencil icon, select all, paste, and commit. Your dashboard updates ~30 seconds later.
+  <p class="save-banner-help" id="save-banner-help">
+    Changes are saved directly to your GitHub repo. If not connected, click Settings in the top bar to set up one-click save.
   </p>
 </div>
 
@@ -46,10 +43,14 @@
       </span>
     </div>
     <div class="appbar-right">
+      <span id="gh-status"></span>
       <div class="appbar-meta">
         <div class="appbar-meta-label">Last Updated</div>
         <div class="appbar-meta-value" id="last-updated">—</div>
       </div>
+      <button class="btn btn-icon" onclick="openSetupModal()" title="GitHub connection settings">
+        <i class="ti ti-settings"></i> Settings
+      </button>
       <button class="btn btn-icon" onclick="downloadJSON()" title="Download a backup of your data">
         <i class="ti ti-download"></i> Backup
       </button>
