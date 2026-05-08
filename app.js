@@ -34,6 +34,7 @@ async function init() {
   setupFilters();
   render();
   updateLastUpdated();
+  updateConnectionStatus();
 }
 
 function detectRepoUrl() {
@@ -669,16 +670,15 @@ function saveActionForm(existingActionId, existingOpportunityId) {
 }
 
 /* ==========================================================================
-   SAVE BANNER + JSON EXPORT
+   SAVE BANNER + GITHUB API AUTO-SAVE
    ========================================================================== */
 
 function markDirty() {
-  // Compare current state to snapshot
   const current = JSON.stringify(DATA);
   if (current === SAVED_SNAPSHOT) {
     UNSAVED_COUNT = 0;
   } else {
-    UNSAVED_COUNT++;  // increment per change for the banner counter
+    UNSAVED_COUNT++;
   }
   updateSaveBanner();
 }
@@ -694,6 +694,15 @@ function updateSaveBanner() {
   banner.style.display = '';
   document.getElementById('unsaved-count').textContent = UNSAVED_COUNT || '·';
   document.getElementById('unsaved-noun').textContent = UNSAVED_COUNT === 1 ? 'change' : 'changes';
+
+  // Update save button text based on whether token is configured
+  const saveBtn = document.getElementById('save-btn');
+  if (saveBtn) {
+    const hasToken = !!getGitHubToken();
+    saveBtn.innerHTML = hasToken
+      ? '<i class="ti ti-device-floppy"></i> Save to GitHub'
+      : '<i class="ti ti-clipboard-copy"></i> Copy updated data.json';
+  }
 }
 
 function discardChanges() {
@@ -705,20 +714,205 @@ function discardChanges() {
   });
 }
 
+/* ---------- GitHub Token Management ---------- */
+const TOKEN_KEY = 'opp-dashboard-gh-token';
+const REPO_INFO_KEY = 'opp-dashboard-repo-info';
+
+function getGitHubToken() {
+  try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; }
+}
+
+function setGitHubToken(token) {
+  try { localStorage.setItem(TOKEN_KEY, token); } catch {}
+}
+
+function clearGitHubToken() {
+  try { localStorage.removeItem(TOKEN_KEY); } catch {}
+}
+
+function getRepoInfo() {
+  // Returns { owner, repo } from stored value or auto-detected
+  try {
+    const stored = localStorage.getItem(REPO_INFO_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch {}
+
+  // Auto-detect from URL on github.io
+  const host = location.hostname;
+  const path = location.pathname.replace(/\/$/, '');
+  if (host.endsWith('.github.io')) {
+    const owner = host.replace('.github.io', '');
+    const repo = path.split('/').filter(Boolean)[0] || '';
+    if (owner && repo) return { owner, repo };
+  }
+  return null;
+}
+
+function setRepoInfo(owner, repo) {
+  try { localStorage.setItem(REPO_INFO_KEY, JSON.stringify({ owner, repo })); } catch {}
+}
+
+/* ---------- Setup Flow (first-time per device) ---------- */
+function openSetupModal() {
+  const info = getRepoInfo();
+  const token = getGitHubToken();
+  const html = `
+    <h3>Connect to GitHub</h3>
+    <p>Enter your Personal Access Token so the dashboard can save directly to your repository. This is stored only in your browser on this device.</p>
+    <div class="form-grid">
+      <label class="form-field full">
+        <span>GitHub Personal Access Token</span>
+        <input type="password" id="f-ghToken" value="${escapeAttr(token)}" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      </label>
+      <label class="form-field">
+        <span>Repository owner (your GitHub username)</span>
+        <input type="text" id="f-ghOwner" value="${escapeAttr(info?.owner || '')}" placeholder="e.g. johndoe">
+      </label>
+      <label class="form-field">
+        <span>Repository name</span>
+        <input type="text" id="f-ghRepo" value="${escapeAttr(info?.repo || '')}" placeholder="e.g. opportunity-dashboard">
+      </label>
+    </div>
+    <p style="font-size:12px;color:var(--ink-3);margin-bottom:16px;">
+      <i class="ti ti-info-circle" style="vertical-align:-2px;"></i>
+      Need a token? Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate. Give it only <strong>Contents: Read and write</strong> permission for this repo.
+    </p>
+    <div class="modal-actions">
+      ${token ? '<button class="btn" onclick="disconnectGitHub()" style="margin-right:auto;color:var(--status-danger);">Disconnect</button>' : ''}
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSetup()">Connect</button>
+    </div>
+  `;
+  showFormModal(html);
+  setTimeout(() => { const el = document.getElementById('f-ghToken'); el && el.focus(); }, 30);
+}
+
+function saveSetup() {
+  const token = document.getElementById('f-ghToken').value.trim();
+  const owner = document.getElementById('f-ghOwner').value.trim();
+  const repo = document.getElementById('f-ghRepo').value.trim();
+  if (!token || !owner || !repo) {
+    showToast('All three fields are required');
+    return;
+  }
+  setGitHubToken(token);
+  setRepoInfo(owner, repo);
+  closeModal();
+  updateSaveBanner();
+  updateConnectionStatus();
+  showToast('GitHub connected — you can now save with one click');
+}
+
+function disconnectGitHub() {
+  clearGitHubToken();
+  closeModal();
+  updateSaveBanner();
+  updateConnectionStatus();
+  showToast('GitHub disconnected');
+}
+
+function updateConnectionStatus() {
+  const el = document.getElementById('gh-status');
+  if (!el) return;
+  const token = getGitHubToken();
+  const info = getRepoInfo();
+  if (token && info) {
+    el.innerHTML = `<span class="status-badge success"><span class="dot"></span>Connected</span>`;
+  } else {
+    el.innerHTML = `<span class="status-badge neutral"><span class="dot"></span>Not connected</span>`;
+  }
+}
+
+/* ---------- One-Click Save to GitHub ---------- */
+async function saveToGitHub() {
+  const token = getGitHubToken();
+  const info = getRepoInfo();
+
+  if (!token || !info) {
+    // Fallback to copy-paste if not connected
+    copyUpdatedJSON();
+    return;
+  }
+
+  const saveBtn = document.getElementById('save-btn');
+  const origHtml = saveBtn.innerHTML;
+  saveBtn.innerHTML = '<i class="ti ti-loader-2 spin"></i> Saving...';
+  saveBtn.disabled = true;
+
+  try {
+    DATA.lastUpdated = new Date().toISOString();
+    const content = JSON.stringify(DATA, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    // Get current file SHA (required for updates)
+    const getRes = await fetch(
+      `https://api.github.com/repos/${info.owner}/${info.repo}/contents/data.json`,
+      { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+
+    if (getRes.status === 401 || getRes.status === 403) {
+      throw new Error('Token expired or invalid. Please reconnect via the Settings button.');
+    }
+
+    let sha = '';
+    if (getRes.ok) {
+      const fileInfo = await getRes.json();
+      sha = fileInfo.sha;
+    }
+
+    // Commit the update
+    const putBody = {
+      message: `Update dashboard data — ${new Date().toLocaleString()}`,
+      content: encoded,
+      branch: 'main'
+    };
+    if (sha) putBody.sha = sha;
+
+    const putRes = await fetch(
+      `https://api.github.com/repos/${info.owner}/${info.repo}/contents/data.json`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(putBody)
+      }
+    );
+
+    if (!putRes.ok) {
+      const err = await putRes.json().catch(() => ({}));
+      throw new Error(err.message || `GitHub API error ${putRes.status}`);
+    }
+
+    SAVED_SNAPSHOT = JSON.stringify(DATA);
+    UNSAVED_COUNT = 0;
+    updateSaveBanner();
+    updateLastUpdated();
+    showToast('Saved to GitHub! Site updates in ~30 seconds.');
+
+  } catch (e) {
+    console.error('GitHub save failed:', e);
+    showToast(e.message || 'Save failed — check your token and try again');
+  } finally {
+    saveBtn.innerHTML = origHtml;
+    saveBtn.disabled = false;
+  }
+}
+
+/* ---------- Fallback: Copy JSON to clipboard ---------- */
 function copyUpdatedJSON() {
-  // Stamp lastUpdated to now
   DATA.lastUpdated = new Date().toISOString();
   const text = JSON.stringify(DATA, null, 2);
 
   navigator.clipboard.writeText(text).then(() => {
     showToast('Copied! Now paste into data.json on GitHub.');
-    // Mark as "saved locally" — user still needs to commit on GitHub for it to persist for others/refresh
     SAVED_SNAPSHOT = JSON.stringify(DATA);
     UNSAVED_COUNT = 0;
     updateSaveBanner();
     updateLastUpdated();
   }).catch(() => {
-    // Fallback for browsers blocking clipboard
     const blob = new Blob([text], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -734,7 +928,10 @@ function copyUpdatedJSON() {
 }
 
 function openGitHubEditor() {
-  if (REPO_URL) {
+  const info = getRepoInfo();
+  if (info) {
+    window.open(`https://github.com/${info.owner}/${info.repo}/edit/main/data.json`, '_blank');
+  } else if (REPO_URL) {
     window.open(`${REPO_URL}/edit/main/data.json`, '_blank');
   } else {
     const url = window.prompt(
