@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-11T17:13:32.931Z",
+  "lastUpdated": "2026-05-11T17:13:54.595Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -89,6 +89,12 @@
       "id": "a-mow87f3ee7bk",
       "text": "Satyajit - DSP Profiles",
       "dueDate": "2026-05-08",
+      "done": false
+    },
+    {
+      "id": "a-mp1go27vo45n",
+      "text": "Twinkle - Terraform",
+      "dueDate": "2026-05-11",
       "done": false
     }
   ]
