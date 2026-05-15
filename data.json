@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-15T15:45:31.433Z",
+  "lastUpdated": "2026-05-15T15:45:44.562Z",
   "opportunities": [
     {
       "id": "opp-mouz3sgepw04",
@@ -95,6 +95,12 @@
       "id": "a-mp1go27vo45n",
       "text": "Twinkle - Terraform",
       "dueDate": "2026-05-11",
+      "done": false
+    },
+    {
+      "id": "a-mp73a38jkmqh",
+      "text": "Srinivasa Rao Kandula - AI Demo",
+      "dueDate": "2026-05-15",
       "done": false
     }
   ]
