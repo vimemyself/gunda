@@ -1,25 +1,6 @@
 {
-  "lastUpdated": "2026-05-29T15:09:59.094Z",
+  "lastUpdated": "2026-05-29T15:10:40.618Z",
   "opportunities": [
-    {
-      "id": "opp-mouz3sgepw04",
-      "clientName": "CS",
-      "opportunityName": "UCM Consolidation",
-      "description": "",
-      "size": 0.75,
-      "receivedDate": "2026-05-06",
-      "etaCloseDate": "2026-07-29",
-      "keyAspects": "",
-      "colorIndex": 1,
-      "actions": [
-        {
-          "id": "a-mouz8p4opulr",
-          "text": "Siddhant + Setvaji - Meeting with Sachin + Proposal",
-          "dueDate": "2026-05-15",
-          "done": true
-        }
-      ]
-    },
     {
       "id": "opp-mov00gqtxglw",
       "clientName": "CS",
@@ -34,25 +15,6 @@
         {
           "id": "a-movv5sufke9j",
           "text": "Natarajan - Follow-up on India profiles",
-          "dueDate": "2026-05-08",
-          "done": true
-        }
-      ]
-    },
-    {
-      "id": "opp-moxd5j9ldamq",
-      "clientName": "CS",
-      "opportunityName": "SmartSoc consolidation",
-      "description": "",
-      "size": 0.35,
-      "receivedDate": "2026-05-08",
-      "etaCloseDate": "",
-      "keyAspects": "",
-      "colorIndex": 3,
-      "actions": [
-        {
-          "id": "a-moxd632hjhsx",
-          "text": "Lok - Reach outs",
           "dueDate": "2026-05-08",
           "done": true
         }
