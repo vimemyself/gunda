@@ -1,75 +1,12 @@
 {
-  "lastUpdated": "2026-05-29T15:10:40.618Z",
-  "opportunities": [
-    {
-      "id": "opp-mov00gqtxglw",
-      "clientName": "CS",
-      "opportunityName": "Proc - AI & FE  Engg (Ind & Mex)",
-      "description": "",
-      "size": 0.5,
-      "receivedDate": "2026-05-06",
-      "etaCloseDate": "",
-      "keyAspects": "",
-      "colorIndex": 2,
-      "actions": [
-        {
-          "id": "a-movv5sufke9j",
-          "text": "Natarajan - Follow-up on India profiles",
-          "dueDate": "2026-05-08",
-          "done": true
-        }
-      ]
-    },
-    {
-      "id": "opp-moxdgpprjhpw",
-      "clientName": "CS",
-      "opportunityName": "Aca - New tape out ramp up",
-      "description": "",
-      "size": 0,
-      "receivedDate": "2026-05-08",
-      "etaCloseDate": "",
-      "keyAspects": "",
-      "colorIndex": 4,
-      "actions": [
-        {
-          "id": "a-moxdhcj59bu6",
-          "text": "Subhash - Followup with Raj",
-          "dueDate": "2026-05-25",
-          "done": true
-        }
-      ]
-    }
-  ],
+  "lastUpdated": "2026-08-27T13:11:59.966Z",
+  "opportunities": [],
   "standaloneActions": [
-    {
-      "id": "a-mow80t62arui",
-      "text": "Setvaji - Data Security issue",
-      "dueDate": "2026-05-08",
-      "done": true
-    },
-    {
-      "id": "a-mow87f3ee7bk",
-      "text": "Satyajit - DSP Profiles",
-      "dueDate": "2026-05-08",
-      "done": false
-    },
-    {
-      "id": "a-mp1go27vo45n",
-      "text": "Twinkle - Terraform",
-      "dueDate": "2026-05-11",
-      "done": false
-    },
-    {
-      "id": "a-mp73a38jkmqh",
-      "text": "Srinivasa Rao Kandula - AI Demo",
-      "dueDate": "2026-05-15",
-      "done": false
-    },
     {
       "id": "a-mp73aly9569l",
       "text": "Nagendra Mahadevaiah - Revenue & Target Numbers",
       "dueDate": "2026-05-15",
-      "done": false
+      "done": true
     }
   ]
 }
