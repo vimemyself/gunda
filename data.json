@@ -1,6 +1,67 @@
 {
-  "lastUpdated": "2026-08-27T13:14:10.903Z",
-  "opportunities": [],
+  "lastUpdated": "2026-08-27T13:17:59.459Z",
+  "opportunities": [
+    {
+      "id": "opp-mtbjpb7v295q",
+      "clientName": "Cisco",
+      "opportunityName": "CNC to EPNM Engg migration",
+      "description": "",
+      "size": 0,
+      "receivedDate": "",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 1,
+      "actions": []
+    },
+    {
+      "id": "opp-mtbjq1k6cxda",
+      "clientName": "Cisco",
+      "opportunityName": "CNC to EPNM deployment migration",
+      "description": "",
+      "size": 0,
+      "receivedDate": "",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 2,
+      "actions": []
+    },
+    {
+      "id": "opp-mtbjqghdgn6r",
+      "clientName": "Cisco",
+      "opportunityName": "Hardware Testing",
+      "description": "",
+      "size": 0,
+      "receivedDate": "",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 3,
+      "actions": []
+    },
+    {
+      "id": "opp-mtbjqupn4nq7",
+      "clientName": "Cisco",
+      "opportunityName": "Webex Onsite",
+      "description": "",
+      "size": 0,
+      "receivedDate": "",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 4,
+      "actions": []
+    },
+    {
+      "id": "opp-mtbjsjmgqjen",
+      "clientName": "Cisco",
+      "opportunityName": "Crosswork AI",
+      "description": "",
+      "size": 0,
+      "receivedDate": "",
+      "etaCloseDate": "",
+      "keyAspects": "",
+      "colorIndex": 5,
+      "actions": []
+    }
+  ],
   "standaloneActions": [
     {
       "id": "a-mp73aly9569l",
